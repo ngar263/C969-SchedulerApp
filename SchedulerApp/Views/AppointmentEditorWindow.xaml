@@ -1,0 +1,50 @@
+﻿<Window x:Class="SchedulerApp.Views.AppointmentEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchedulerApp.Views"
+        mc:Ignorable="d"
+        Title="Appointment" Height="350" Width="500">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Height="25" Margin="0,0,0,6">
+                <Label Width="120" >Title:</Label>
+                <TextBox x:Name="txtTitle" Width="300"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Height="25" Margin="0,0,0,6">
+                <Label Width="120">CustomerId:</Label>
+                <TextBox x:Name="txtCustomerId" Width="100"/>
+                <Label Width="80" Margin="10,0,0,0">Type:</Label>
+                <TextBox x:Name="txtType" Width="120"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Height="25" Margin="0,0,0,6">
+                <Label Width="120">Date:</Label>
+                <DatePicker x:Name="dpDate" Width="140"/>
+                <Label Width="40">Start:</Label>
+                <TextBox x:Name="txtStartTime" Width="60" Height="25" VerticalAlignment="Center" Text="09:00"/>
+                <Label Width="40">End:</Label>
+                <TextBox x:Name="txtEndTime" Width="60" Height="25" VerticalAlignment="Center" Text="10:00"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,0,0,6">
+                <Label Width="120">Description:</Label>
+                <TextBox x:Name="txtDescription" Width="300"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="4" Height="35" HorizontalAlignment="Right">
+                <Button x:Name="btnSave" Content="Save" Width="60" Click="btnSave_Click" Margin="4"/>
+                <Button x:Name="btnCancel" Content="Cancel" Width="60" Click="btnCancel_Click" Margin="4"/>
+            </StackPanel>
+        </Grid>
+    </Window>
+

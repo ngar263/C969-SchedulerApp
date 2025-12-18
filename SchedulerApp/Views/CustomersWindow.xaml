@@ -1,0 +1,21 @@
+﻿<!-- Views/CustomersWindow.xaml -->
+<Window x:Class="SchedulerApp.Views.CustomersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Customers" Height="500" Width="800">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button x:Name="btnAdd" Width="50" Content="Add" Click="btnAdd_Click" Margin="2"/>
+            <Button x:Name="btnEdit" Width="50" Content="Edit" Click="btnEdit_Click" Margin="2"/>
+            <Button x:Name="btnDelete" Width="50" Content="Delete" Click="btnDelete_Click" Margin="2"/>
+        </StackPanel>
+        <DataGrid x:Name="dgCustomers" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding CustomerId}" Header="ID" Width="50"/>
+                <DataGridTextColumn Binding="{Binding CustomerName}" Header="Name" Width="*"/>
+                <DataGridTextColumn Binding="{Binding AddressId}" Header="AddressId" Width="80"/>
+                <DataGridCheckBoxColumn Binding="{Binding Active}" Header="Active" Width="60"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

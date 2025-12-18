@@ -1,0 +1,28 @@
+﻿<Window x:Class="SchedulerApp.Views.AppointmentsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchedulerApp.Views"
+        mc:Ignorable="d"
+        Title="Appointments" Height="600" Width="900">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <Button x:Name="btnAdd" Content="Add" Click="btnAdd_Click" Width="50" Margin="4"/>
+                <Button x:Name="btnEdit" Content="Edit" Click="btnEdit_Click" Width="50" Margin="4"/>
+                <Button x:Name="btnDelete" Content="Delete" Click="btnDelete_Click" Width="50" Margin="4"/>
+            </StackPanel>
+
+            <DataGrid x:Name="dgAppointments" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding AppointmentId}" Header="ID" Width="50"/>
+                    <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="150"/>
+                    <DataGridTextColumn Header="Start (Local)" Width="180" Binding="{Binding StartUtc, Converter={StaticResource UtcToLocalConverter}}"/>
+                    <DataGridTextColumn Header="End (Local)" Width="180" Binding="{Binding EndUtc, Converter={StaticResource UtcToLocalConverter}}"/>
+                    <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="120"/>
+                    <DataGridTextColumn Binding="{Binding CustomerId}" Header="Customer" Width="80"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Window>
+

@@ -9,8 +9,8 @@ namespace SchedulerApp.Data
 {
     public interface IAppointmentDao
     {
-        int AddAppointment(Appointment apt);
-        void UpdateAppointment(Appointment apt);
+        int AddAppointment(Appointment apt, string username);
+        void UpdateAppointment(Appointment apt, string username);
         void DeleteAppointment(int appointmentId);
         List<Appointment> GetAppointmentsForUserBetween(int userId, DateTime startUtc, DateTime endUtc);
         bool HasOverlappingAppointment(int userId, DateTime newStartUtc, DateTime newEndUtc, int? excludingAppointmentId = null);

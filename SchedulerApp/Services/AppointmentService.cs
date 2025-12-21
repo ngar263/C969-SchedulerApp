@@ -13,7 +13,7 @@ namespace SchedulerApp.Services
         private readonly IAppointmentDao _appointmentDao;
         public AppointmentService(IAppointmentDao appointmentDao) => _appointmentDao = appointmentDao;
 
-        public int AddAppointment(Appointment appointment) {
+        public int AddAppointment(Appointment appointment, User user) {
             var startLocal = TimeHelper.ConvertUtcToLocal(appointment.StartUtc);
             var endLocal = TimeHelper.ConvertUtcToLocal(appointment.EndUtc);
             ValidationService.ValidateAppointmentTimes(startLocal, endLocal);
@@ -28,7 +28,7 @@ namespace SchedulerApp.Services
             var businessStart = TimeSpan.FromHours(9);
             var businessEnd = TimeSpan.FromHours(17);
 
-            if (startEastern.TimeOfDay < businessStart || endEastern.TimeOfDay > businessEnd)
+            if (startLocal.TimeOfDay < businessStart || endLocal.TimeOfDay > businessEnd)
                 throw new InvalidOperationException("Appointment must be scheduled during business hours."); 
 
             var startUtc = appointment.StartUtc.Kind == DateTimeKind.Utc ? appointment.StartUtc : TimeHelper.ConvertLocalToUtc(appointment.StartUtc);
@@ -41,13 +41,13 @@ namespace SchedulerApp.Services
             appointment.EndUtc = endUtc;
 
             try {
-                return _appointmentDao.AddAppointment(appointment);
+                return _appointmentDao.AddAppointment(appointment, user.UserName);
             } catch (Exception ex) {
                 throw new ApplicationException("Failed to add appointment", ex);
             }
         }
 
-        public void UpdateAppointment(Appointment appointment) {
+        public void UpdateAppointment(Appointment appointment, User user) {
             var startLocal = TimeHelper.ConvertUtcToLocal(appointment.StartUtc);
             var endLocal = TimeHelper.ConvertUtcToLocal(appointment.EndUtc);
             ValidationService.ValidateAppointmentTimes(startLocal, endLocal);
@@ -74,7 +74,7 @@ namespace SchedulerApp.Services
             appointment.EndUtc = endUtc;
 
             try {
-                _appointmentDao.UpdateAppointment(appointment);
+                _appointmentDao.UpdateAppointment(appointment, user.UserName);
             } catch (Exception ex) {
                 throw new ApplicationException("Failed to update appointment", ex);
             }

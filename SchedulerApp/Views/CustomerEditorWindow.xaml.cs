@@ -32,15 +32,18 @@ namespace SchedulerApp.Views {
             txtName.Text = Customer.CustomerName;
             txtAddress.Text = Address.Address1;
             txtPhone.Text = Address.Phone;
+            txtPostalCode.Text = Address.PostalCode;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e) {
             Customer.CustomerName = txtName.Text;
             Address.Address1 = txtAddress.Text;
             Address.Phone = txtPhone.Text;
+            Address.PostalCode = txtPostalCode.Text;
             if (string.IsNullOrEmpty(Customer.CustomerName)) { MessageBox.Show("Please enter a name."); return; } ;
             if (string.IsNullOrEmpty(Address.Address1)) { MessageBox.Show("Please enter an address."); return; } ;
             if (string.IsNullOrEmpty(Address.Phone)) { MessageBox.Show("Please enter a phone number."); return; } ;
+            if (string.IsNullOrEmpty(Address.PostalCode)) { MessageBox.Show("Please enter a postal code."); return; } ;
 
             this.DialogResult = true;
             this.Close();

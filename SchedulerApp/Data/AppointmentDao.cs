@@ -9,34 +9,35 @@ using System.Threading.Tasks;
 namespace SchedulerApp.Data
 {
     public class AppointmentDao : IAppointmentDao {
-        public int AddAppointment(Appointment apt) {
+        public int AddAppointment(Appointment apt, string username) {
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(
-                @"INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy)
-                  VALUES (@customerId, @userId, @title, @description, @location, @contact, @type, @url, @start, @end, NOW(), 'system');
+                @"INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy)
+                  VALUES (@customerId, @userId, @title, @description, @location, @contact, @type, @url,  @start, @end, NOW(), @username, NOW(), @username);
                   SELECT LAST_INSERT_ID();", conn)) 
             {
                 cmd.Parameters.AddWithValue("@customerId", apt.CustomerId);
                 cmd.Parameters.AddWithValue("@userId", apt.UserId);
-                cmd.Parameters.AddWithValue("@title", apt.Title);
-                cmd.Parameters.AddWithValue("@description", apt.Description);
-                cmd.Parameters.AddWithValue("@location", apt.Location);
-                cmd.Parameters.AddWithValue("@contact", apt.Contact);
+                cmd.Parameters.AddWithValue("@title", apt.Title ?? "not needed");
+                cmd.Parameters.AddWithValue("@description", apt.Description ?? "not needed");
+                cmd.Parameters.AddWithValue("@location", apt.Location ?? "not needed");
+                cmd.Parameters.AddWithValue("@contact", apt.Contact ?? "not needed");
                 cmd.Parameters.AddWithValue("@type", apt.Type);
-                cmd.Parameters.AddWithValue("@url", apt.Url);
+                cmd.Parameters.AddWithValue("@url", apt.Url ?? "not needed");
                 cmd.Parameters.AddWithValue("@start", apt.StartUtc);
                 cmd.Parameters.AddWithValue("@end", apt.EndUtc);
+                cmd.Parameters.AddWithValue("@username", username);
 
                 var id = Convert.ToInt32(cmd.ExecuteScalar());
                 return id;
             }
         }
 
-        public void UpdateAppointment(Appointment apt) {
+        public void UpdateAppointment(Appointment apt, string username) {
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(
                 @"UPDATE appointment SET customerId=@customerId, userId=@userId, title=@title, description=@description,
-                  location=@location, contact=@contact, type=@type, url=@url, start=@start, end=@end, lastUpdate=NOW()
+                  location=@location, contact=@contact, type=@type, url=@url, start=@start, end=@end, lastUpdate=NOW(), lastUpdateBy=@username
                   WHERE appointmentId=@id", conn)) 
             {
                 cmd.Parameters.AddWithValue("@customerId", apt.CustomerId);
@@ -49,6 +50,7 @@ namespace SchedulerApp.Data
                 cmd.Parameters.AddWithValue("@url", apt.Url);
                 cmd.Parameters.AddWithValue("@start", apt.StartUtc);
                 cmd.Parameters.AddWithValue("@end", apt.EndUtc);
+                cmd.Parameters.AddWithValue("@username", username);
                 cmd.Parameters.AddWithValue("@id", apt.AppointmentId);
                 cmd.ExecuteNonQuery();
             }

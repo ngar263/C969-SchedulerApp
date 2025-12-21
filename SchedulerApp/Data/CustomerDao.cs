@@ -13,7 +13,7 @@ namespace SchedulerApp.Data
             var list = new List<Customer>();
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(
-                "SELECT cusomterId, customerName, addressId, active FROM customer",conn))
+                "SELECT customerId, customerName, addressId, active FROM customer",conn))
             using (var reader =  cmd.ExecuteReader()) {
                 while (reader.Read()) {
                     list.Add(new Customer {
@@ -30,10 +30,10 @@ namespace SchedulerApp.Data
             using (var conn = Database.GetConnection())
             using (var trans =  conn.BeginTransaction()) {
                 using (var cmd = new MySqlCommand(
-                    @"INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy)
-                     VALUES (@address1, @address2, @cityId, @postalCode, @phone, NOW(), 'system'); SELECT LAST_INSERT_ID();", conn, trans)) {
-                    cmd.Parameters.AddWithValue("@address", address.Address1);
-                    cmd.Parameters.AddWithValue("@address2", address.Address2);
+                    @"INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy)
+                     VALUES (@address1, @address2, @cityId, @postalCode, @phone, NOW(), 'system', NOW(), 'system'); SELECT LAST_INSERT_ID();", conn, trans)) {
+                    cmd.Parameters.AddWithValue("@address1", address.Address1);
+                    cmd.Parameters.AddWithValue("@address2", address.Address2 ?? "");
                     cmd.Parameters.AddWithValue("@cityId", address.CityId);
                     cmd.Parameters.AddWithValue("@postalCode", address.PostalCode);
                     cmd.Parameters.AddWithValue("@phone", address.Phone);

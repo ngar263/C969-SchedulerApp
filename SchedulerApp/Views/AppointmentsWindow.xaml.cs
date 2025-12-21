@@ -39,7 +39,7 @@ namespace SchedulerApp.Views {
             var editor = new AppointmentEditorWindow(_currentUser);
             if (editor.ShowDialog() == true) {
                 try {
-                    _appointmentService.AddAppointment(editor.Appointment);
+                    _appointmentService.AddAppointment(editor.Appointment, _currentUser);
                     LoadAppointments();
                 } catch (Exception ex) {
                     MessageBox.Show("Error adding appointment." + ex.Message);
@@ -52,7 +52,7 @@ namespace SchedulerApp.Views {
                 var editor = new AppointmentEditorWindow(_currentUser, appointment);
                 if (editor.ShowDialog() == true) {
                     try {
-                        _appointmentService.UpdateAppointment(appointment);
+                        _appointmentService.UpdateAppointment(appointment, _currentUser);
                         LoadAppointments();
                     } catch (Exception ex) {
                         MessageBox.Show("Error updating appointment." + ex.Message);

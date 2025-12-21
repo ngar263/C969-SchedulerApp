@@ -12,6 +12,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" Height="25" VerticalAlignment="Bottom" Margin="0,0,0,6">
@@ -29,7 +30,12 @@
                 <TextBox x:Name="txtPhone" Width="300"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="3" Height="35" HorizontalAlignment="Right" Margin="0,0,55,0">
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Height="25" VerticalAlignment="Top" Margin="0,0,0,6">
+                <Label Width="120">Postal Code:</Label>
+                <TextBox x:Name="txtPostalCode" Width="300"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="4" Height="35" HorizontalAlignment="Right" Margin="0,0,55,0">
                 <Button x:Name="btnSave" Content="Save" Width="60" Click="btnSave_Click" Margin="4"/>
                 <Button x:Name="btnCancel" Content="Cancel" Width="60" Click="btnCancel_Click" Margin="4"/>
             </StackPanel>

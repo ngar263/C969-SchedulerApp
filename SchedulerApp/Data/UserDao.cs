@@ -20,7 +20,7 @@ namespace SchedulerApp.Data
                         if (!reader.Read()) return null;
                         return new User() {
                             UserId = Convert.ToInt32(reader["userId"]),
-                            UserName = reader["userName"].ToString()!,
+                            Username = reader["userName"].ToString()!,
                             Password = reader["password"].ToString()!,
                             Active = Convert.ToInt32(reader["active"]) == 1
                         };

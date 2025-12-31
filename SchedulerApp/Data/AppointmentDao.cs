@@ -19,7 +19,7 @@ namespace SchedulerApp.Data
                 cmd.Parameters.AddWithValue("@customerId", apt.CustomerId);
                 cmd.Parameters.AddWithValue("@userId", apt.UserId);
                 cmd.Parameters.AddWithValue("@title", apt.Title ?? "not needed");
-                cmd.Parameters.AddWithValue("@description", apt.Description ?? "not needed");
+                cmd.Parameters.AddWithValue("@description", apt.Description.Trim() ?? "not needed");
                 cmd.Parameters.AddWithValue("@location", apt.Location ?? "not needed");
                 cmd.Parameters.AddWithValue("@contact", apt.Contact ?? "not needed");
                 cmd.Parameters.AddWithValue("@type", apt.Type);
@@ -47,7 +47,7 @@ namespace SchedulerApp.Data
                 cmd.Parameters.AddWithValue("@location", apt.Location);
                 cmd.Parameters.AddWithValue("@contact", apt.Contact);
                 cmd.Parameters.AddWithValue("@type", apt.Type);
-                cmd.Parameters.AddWithValue("@url", apt.Url);
+                cmd.Parameters.AddWithValue("@url", apt.Url ?? "");
                 cmd.Parameters.AddWithValue("@start", apt.StartUtc);
                 cmd.Parameters.AddWithValue("@end", apt.EndUtc);
                 cmd.Parameters.AddWithValue("@username", username);
@@ -67,20 +67,31 @@ namespace SchedulerApp.Data
         }
 
         public List<Appointment> GetAllAppointments() {
-            var list = new List<Appointment>();
-            using (var conn = Database.GetConnection())
-            using (var cmd = new MySqlCommand(
-                @"SELECT appointmentId, customerId, userId, title, description, location, contact, type, url, start, end 
-                FROM appointment",
-                conn)) {
+            var appointments = new List<Appointment>();
+            using (var conn = Database.GetConnection()) {
+                using (var cmd = new MySqlCommand(
+                    @"SELECT a.appointmentId, a.customerId, c.customerName, a.title, a.description, a.type, a.start, a.end
+                      FROM appointment a
+                      JOIN customer c ON a.customerId = c.customerId",
+                    conn))
                 using (var reader = cmd.ExecuteReader()) {
                     while (reader.Read()) {
-                        list.Add(MapReaderToAppointment(reader));
+                        appointments.Add(new Appointment {
+                            AppointmentId = reader.GetInt32("appointmentId"),
+                            CustomerId = reader.GetInt32("customerId"),
+                            CustomerName = reader.GetString("customerName"),
+                            Title = reader.GetString("title"),
+                            Description = reader.GetString("description"),
+                            Type = reader.GetString("type"),
+                            StartUtc = reader.GetDateTime("start"),
+                            EndUtc = reader.GetDateTime("end")
+                        });
                     }
                 }
             }
-            return list;
+            return appointments;
         }
+
 
         private Appointment MapReaderToAppointment(MySqlDataReader reader) {
             return new Appointment {

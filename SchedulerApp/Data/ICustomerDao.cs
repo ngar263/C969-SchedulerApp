@@ -10,9 +10,11 @@ namespace SchedulerApp.Data
     public interface ICustomerDao
     {
         List<Customer> GetAllCustomers();
-        int AddCustomer(Customer customer, Address address);
-        void UpdateCustomer(Customer customer, Address address);
+        int AddCustomer(Customer customer, Address address, User user, string cityName, string countryName);
+        void UpdateCustomer(Customer customer, Address address, User user, string cityName, int countryId);
         void DeleteCustomer(int customerId);
-        Address GetAddressById(int addressId);
+        Address GetAddressById(int customerId);
+        Country GetCountryById(int countryId);
+        City GetCityById(int cityId);
     }
 }

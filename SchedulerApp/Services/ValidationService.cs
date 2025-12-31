@@ -9,10 +9,12 @@ namespace SchedulerApp.Services
 {
     public static class ValidationService
     {
-        public static void ValidateCustomerInput(string name, string address, string phone) {
+        public static void ValidateCustomerInput(string name, string address, string phone, string cityName, string countryName) {
             if (string.IsNullOrEmpty(name)) throw new ArgumentException("Customer name is required.");
             if (string.IsNullOrEmpty(address)) throw new ArgumentException("Address is required.");
             if (string.IsNullOrEmpty(phone)) throw new ArgumentException("Phone is required.");
+            if (string.IsNullOrEmpty(cityName)) throw new ArgumentException("City is required.");
+            if (string.IsNullOrEmpty(countryName)) throw new ArgumentException("Country is required.");
 
             phone = phone.Trim();
             if (!Regex.IsMatch(phone, @"^[0-9\-]+$")) throw new ArgumentException("Phone may contain only digits and dashes.");

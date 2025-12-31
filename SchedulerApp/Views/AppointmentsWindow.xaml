@@ -13,14 +13,17 @@
                 <Button x:Name="btnDelete" Content="Delete" Click="btnDelete_Click" Width="50" Margin="4"/>
             </StackPanel>
 
-            <DataGrid x:Name="dgAppointments" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
+            <DataGrid x:Name="dgAppointments" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" CanUserResizeColumns="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding AppointmentId}" Header="ID" Width="50"/>
-                    <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="150"/>
-                    <DataGridTextColumn Header="Start (Local)" Width="180" Binding="{Binding StartUtc, Converter={StaticResource UtcToLocalConverter}}"/>
-                    <DataGridTextColumn Header="End (Local)" Width="180" Binding="{Binding EndUtc, Converter={StaticResource UtcToLocalConverter}}"/>
-                    <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="120"/>
-                    <DataGridTextColumn Binding="{Binding CustomerId}" Header="Customer" Width="80"/>
+                    <DataGridTextColumn Binding="{Binding AppointmentId}" Header="ID" Width="auto"/>
+                    <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="2*"/>
+                    <DataGridTextColumn Header="Start (Local)" Width="auto" Binding="{Binding StartUtc, Converter={StaticResource UtcToLocalConverter}}"/>
+                    <DataGridTextColumn Header="End (Local)" Width="auto" Binding="{Binding EndUtc, Converter={StaticResource UtcToLocalConverter}}"/>
+                    <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="auto"/>
+                    <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="12*"/>
+                    <DataGridTextColumn Binding="{Binding CustomerName}" Header="Customer" Width="5*"/>
+                    <DataGridTextColumn Binding="{Binding Contact}" Header="Contact" Width="3*"/>
+                    <DataGridTextColumn Binding="{Binding Location}" Header="Location" Width="3*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

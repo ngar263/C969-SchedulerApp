@@ -13,6 +13,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" Height="25" Margin="0,0,0,6">
@@ -36,12 +37,19 @@
                 <TextBox x:Name="txtEndTime" Width="60" Height="25" VerticalAlignment="Center" Text="10:00"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,0,0,6">
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Height="25" Margin="0,0,0,6">
+                <Label Width="120">Location:</Label>
+                <TextBox x:Name="txtLocation" Width="100"/>
+                <Label Width="80" Margin="10,0,0,0">Contact:</Label>
+                <TextBox x:Name="txtContact" Width="120"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0,0,0,6">
                 <Label Width="120">Description:</Label>
                 <TextBox x:Name="txtDescription" Width="300"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="4" Height="35" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Grid.Row="5" Height="35" HorizontalAlignment="Right">
                 <Button x:Name="btnSave" Content="Save" Width="60" Click="btnSave_Click" Margin="4"/>
                 <Button x:Name="btnCancel" Content="Cancel" Width="60" Click="btnCancel_Click" Margin="4"/>
             </StackPanel>

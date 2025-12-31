@@ -13,6 +13,8 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" Height="25" VerticalAlignment="Bottom" Margin="0,0,0,6">
@@ -35,7 +37,19 @@
                 <TextBox x:Name="txtPostalCode" Width="300"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="4" Height="35" HorizontalAlignment="Right" Margin="0,0,55,0">
+            <StackPanel Orientation="Horizontal" Grid.Row="4" Height="25" VerticalAlignment="Top" Margin="0,0,0,6">
+                <Label Width="120">City:</Label>
+                <ComboBox x:Name="cmbCity" SelectedValuePath="CityId" DisplayMemberPath="Name" Width="300" IsEditable="True"></ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="5" Height="25" VerticalAlignment="Top" Margin="0,0,0,6">
+                <Label Width="120">Country:</Label>
+                <ComboBox x:Name="cmbCountry" SelectedValuePath="CountryId" DisplayMemberPath="Name" Width="300" IsEditable="True"></ComboBox>
+            </StackPanel>
+
+            <CheckBox x:Name="chkActive" Content="Active" VerticalAlignment="Center" IsChecked="True" Margin="5" Grid.Row="6" Width="100px" HorizontalAlignment="Left"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Height="35" HorizontalAlignment="Right" Margin="0,0,55,0">
                 <Button x:Name="btnSave" Content="Save" Width="60" Click="btnSave_Click" Margin="4"/>
                 <Button x:Name="btnCancel" Content="Cancel" Width="60" Click="btnCancel_Click" Margin="4"/>
             </StackPanel>

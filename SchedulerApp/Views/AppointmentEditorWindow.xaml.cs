@@ -39,6 +39,8 @@ namespace SchedulerApp.Views {
                 txtEndTime.Text = endLocal.ToString("HH:mm");
                 txtTitle.Text = appointment.Title;
                 txtDescription.Text = appointment.Description;
+                txtLocation.Text = appointment.Location;
+                txtContact.Text = appointment.Contact;
                 txtType.Text = appointment.Type;
                 txtCustomerId.Text = appointment.CustomerId.ToString();
             }
@@ -69,6 +71,8 @@ namespace SchedulerApp.Views {
             Appointment.Title = txtTitle.Text.Trim();
             Appointment.Description = txtDescription.Text.Trim();
             Appointment.Type = txtType.Text.Trim();
+            Appointment.Contact = txtContact.Text.Trim();
+            Appointment.Location = txtLocation.Text.Trim();
             Appointment.StartUtc = TimeZoneInfo.ConvertTimeToUtc(startLocal);
             Appointment.EndUtc = TimeZoneInfo.ConvertTimeToUtc(endLocal);
 

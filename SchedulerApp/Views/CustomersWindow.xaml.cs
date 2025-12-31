@@ -22,22 +22,33 @@ namespace SchedulerApp.Views {
     public partial class CustomersWindow : Window {
         private readonly CustomerService _customerService;
         private readonly ICustomerDao _customerDao;
-        public CustomersWindow() {
+        private readonly CityDao _cityDao;
+        private readonly CountryDao _countryDao;
+        private readonly User _currentUser;
+        private List<City> _cities;
+        private List<Country> _countries;
+        
+        public CustomersWindow(User user) {
             InitializeComponent();
             _customerDao = new CustomerDao();
             _customerService = new CustomerService((ICustomerDao)_customerDao);
+            _cityDao = new CityDao();
+            _countryDao = new CountryDao();
+            _currentUser = user;
             LoadCustomers();
         }
 
         private void LoadCustomers() {
             dgCustomers.ItemsSource = _customerDao.GetAllCustomers();
+            _cities = _cityDao.GetAllCities();
+            _countries = _countryDao.GetAllCountries();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e) {
-            var editor = new CustomerEditorWindow();
+            var editor = new CustomerEditorWindow(_cities, _countries);
             if (editor.ShowDialog() == true) {
                 try {
-                    var custId = _customerService.AddCustomer(editor.Customer, editor.Address);
+                    var custId = _customerService.AddCustomer(editor.Customer, editor.Address, _currentUser, editor.cmbCity.Text.Trim(), editor.cmbCountry.Text.Trim());
                     LoadCustomers();
                 } catch (Exception ex) {
                     MessageBox.Show("Error adding customer: " + ex.Message);
@@ -47,11 +58,14 @@ namespace SchedulerApp.Views {
 
         private void btnEdit_Click(object sender, RoutedEventArgs e) {
             if (dgCustomers.SelectedItem is Customer selected) {
-                var address = _customerDao.GetAddressById(selected.CustomerId);
-                var editor = new CustomerEditorWindow(selected, address);
+                var customerId = selected.CustomerId;
+                var address = _customerDao.GetAddressById(customerId);
+                var city = _customerDao.GetCityById(address.CityId);
+                var country = _customerDao.GetCountryById(city.CountryId);
+                var editor = new CustomerEditorWindow(selected, address, city, country, _cities, _countries);
                 if (editor.ShowDialog() == true) {
                     try {
-                        _customerService.UpdateCustomer(editor.Customer, editor.Address);
+                        _customerService.UpdateCustomer(editor.Customer, editor.Address, _currentUser, editor.cmbCity.Text, editor.cmbCountry.Text, editor.chkActive.IsChecked!.Value);
                         LoadCustomers();
                     } catch (Exception ex) {
                         MessageBox.Show("Error editing customer: " + ex.Message);

@@ -20,19 +20,33 @@ namespace SchedulerApp.Views {
     public partial class CustomerEditorWindow : Window {
         public Customer Customer { get; private set; } = new Customer();
         public Address Address { get; private set; } = new Address();
+        private List<City> _cities;
+        private List<Country> _countries;
         public CustomerEditorWindow() {
             InitializeComponent();
+        }
+        public CustomerEditorWindow(List<City> cities, List<Country> countries) {
+            InitializeComponent();
             this.Title = "Add Customer";
+            _cities = cities;
+            _countries = countries;
+            cmbCity.ItemsSource = _cities;
+            cmbCountry.ItemsSource = _countries;
         }
 
-        public CustomerEditorWindow(Customer customer, Address address) : this() {
+        public CustomerEditorWindow(Customer customer, Address address, City city, Country country, List<City> cities, List<Country> countries) : this() {
             InitializeComponent();
             Customer = customer;
             Address = address ?? new Address();
+            cmbCity.ItemsSource = cities;
+            cmbCountry.ItemsSource = countries;
             txtName.Text = Customer.CustomerName;
             txtAddress.Text = Address.Address1;
             txtPhone.Text = Address.Phone;
             txtPostalCode.Text = Address.PostalCode;
+            cmbCity.SelectedValue = city.CityId;
+            cmbCountry.SelectedValue = country.CountryId;
+            chkActive.IsChecked = customer.Active;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e) {

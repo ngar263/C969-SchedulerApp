@@ -22,11 +22,11 @@ namespace SchedulerApp.Views {
         public MainWindow(User user) {
             InitializeComponent();
             _currentUser = user;
-            Title = $"Scheduler - Logged in as {_currentUser.UserName}";
+            Title = $"Scheduler - Logged in as {_currentUser.Username}";
         }
 
         private void Customers_Click(object sender, RoutedEventArgs e) {
-            var window = new CustomersWindow();
+            var window = new CustomersWindow(_currentUser);
             window.Owner = this;
             window.ShowDialog();
         }

@@ -41,7 +41,7 @@ namespace SchedulerApp.Services
             appointment.EndUtc = endUtc;
 
             try {
-                return _appointmentDao.AddAppointment(appointment, user.UserName);
+                return _appointmentDao.AddAppointment(appointment, user.Username);
             } catch (Exception ex) {
                 throw new ApplicationException("Failed to add appointment", ex);
             }
@@ -54,19 +54,19 @@ namespace SchedulerApp.Services
             var startEastern = TimeHelper.ConvertLocalToEastern(startLocal);
             var endEastern = TimeHelper.ConvertLocalToEastern(endLocal);
             if (startEastern.DayOfWeek == DayOfWeek.Sunday || startEastern.DayOfWeek == DayOfWeek.Saturday ||
-                endEastern.DayOfWeek == DayOfWeek.Sunday || endEastern.DayOfWeek == DayOfWeek.Sunday) {
+                endEastern.DayOfWeek == DayOfWeek.Sunday || endEastern.DayOfWeek == DayOfWeek.Saturday) {
                 throw new InvalidOperationException("Appointments must be scheduled Monday through Friday EST.");
             }
             var businessStart = TimeSpan.FromHours(9);
             var businessEnd = TimeSpan.FromHours(17);
             if (startEastern.TimeOfDay < businessStart || endEastern.TimeOfDay > businessEnd) {
-                throw new InvalidOperationException("Appointment must be scheduled during business hours.");
+                throw new InvalidOperationException("Appointments must be scheduled between 9:00 a.m.and 5:00 p.m. Eastern Time.");
             }
 
-            var startUtc = appointment.StartUtc.Kind == DateTimeKind.Utc ? appointment.StartUtc : TimeHelper.ConvertLocalToUtc(appointment.StartUtc);
-            var endUtc = appointment.EndUtc.Kind == DateTimeKind.Utc ? appointment.EndUtc : TimeHelper.ConvertLocalToUtc(appointment.EndUtc);
+            var startUtc = TimeHelper.ConvertLocalToUtc(startLocal);
+            var endUtc = TimeHelper.ConvertLocalToUtc(endLocal);
 
-            if (_appointmentDao.HasOverlappingAppointment(appointment.UserId, startUtc, endUtc, appointment.AppointmentId == 0 ? null : (int?)appointment.AppointmentId)) {
+            if (_appointmentDao.HasOverlappingAppointment(appointment.UserId, startUtc, endUtc, appointment.AppointmentId)) {
                 throw new InvalidOperationException("This appointment overlaps with an already existing appointment.");
             }
 
@@ -74,7 +74,7 @@ namespace SchedulerApp.Services
             appointment.EndUtc = endUtc;
 
             try {
-                _appointmentDao.UpdateAppointment(appointment, user.UserName);
+                _appointmentDao.UpdateAppointment(appointment, user.Username);
             } catch (Exception ex) {
                 throw new ApplicationException("Failed to update appointment", ex);
             }

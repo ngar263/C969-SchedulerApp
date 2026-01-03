@@ -32,7 +32,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" Height="25" Margin="0,0,0,6">
             <Label Width="120">Date:</Label>
-            <DatePicker x:Name="dpDate" Width="140"/>
+            <DatePicker x:Name="dpDate" Width="140" SelectedDateChanged="dpDate_SelectedDateChanged"/>
 
             <Label Width="40">Start:</Label>
             <TextBox x:Name="txtStartTime" Width="55" Height="25" Text="09:00"/>
@@ -50,7 +50,7 @@
         </StackPanel>
 
 
-        <TextBlock Grid.Row="3" HorizontalAlignment="Center" FontSize="11" Foreground="Gray" Text="Business hours: Monday-Friday 9:00 AM – 5:00 PM Eastern Time (auto-adjusted to your time zone)"/>
+        <TextBlock x:Name="txtBusinessHours" Grid.Row="3" HorizontalAlignment="Center" FontSize="11" Foreground="Gray" />
 
         <StackPanel Orientation="Horizontal" Grid.Row="4" Height="25" Margin="0,0,0,6">
                 <Label Width="120">Phone Number:</Label>

@@ -41,6 +41,7 @@ namespace SchedulerApp.Views {
                 var localEnd = TimeZoneInfo.ConvertTime(estEnd, eastern, TimeZoneInfo.Local);
                 txtStartTime.Text = localStart.ToString("hh:mm");
                 txtEndTime.Text = localEnd.ToString("hh:mm");
+                UpdateBusinessHours();
             } else {
                 Appointment = appointment;
                 var startLocal = TimeHelper.ConvertUtcToLocal(appointment.StartUtc);
@@ -56,7 +57,29 @@ namespace SchedulerApp.Views {
                 txtContact.Text = appointment.Contact;
                 txtType.Text = appointment.Type;
                 cmbCustomer.SelectedItem = _customers.FirstOrDefault(c => c.CustomerId == appointment.CustomerId);
+                UpdateBusinessHours();
             }
+        }
+
+        private void UpdateBusinessHours() {
+            var eastern = TimeHelper.GetEasternTimeZone();
+            var date = (dpDate.SelectedDate ?? DateTime.Today).Date;
+
+            var estStart = DateTime.SpecifyKind(date.AddHours(9), DateTimeKind.Unspecified);
+            var estEnd = DateTime.SpecifyKind(date.AddHours(17), DateTimeKind.Unspecified);
+
+            var localStart = TimeZoneInfo.ConvertTime(estStart, eastern, TimeZoneInfo.Local);
+            var localEnd = TimeZoneInfo.ConvertTime(estEnd, eastern, TimeZoneInfo.Local);
+
+            var localOffset = TimeZoneInfo.Local.GetUtcOffset(date);
+            var easternOffset = eastern.GetUtcOffset(date);
+
+            static string FormatOffset(TimeSpan offset) {
+                var sign = offset >= TimeSpan.Zero ? "+" : "-";
+                offset = offset.Duration();
+                return $"{sign}{offset:hh\\:mm}";
+            }
+            txtBusinessHours.Text = $"Business hours: Mon–Fri 9:00AM–5:00 PM Eastern| Your local: {localStart:h:mm tt}–{localEnd:h:mm tt}";
         }
 
         bool TryParseTime(string text, ComboBox ampmBox, out TimeSpan time) {
@@ -126,6 +149,10 @@ namespace SchedulerApp.Views {
         private void btnCancel_Click(object sender, RoutedEventArgs e) {
             this.DialogResult = false;
             this.Close();
+        }
+
+        private void dpDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
+            UpdateBusinessHours();
         }
     }
 }

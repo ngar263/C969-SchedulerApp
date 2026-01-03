@@ -12,23 +12,35 @@ namespace SchedulerApp.Data
     public class CustomerDao : ICustomerDao {
         public List<Customer> GetAllCustomers() {
             var list = new List<Customer>();
+
             using (var conn = Database.GetConnection())
             using (var cmd = new MySqlCommand(
-                "SELECT customerId, customerName, addressId, active FROM customer",conn))
-            using (var reader =  cmd.ExecuteReader()) {
+                @"SELECT c.customerId, c.customerName, c.active, a.address, a.phone, a.postalCode, ci.city, co.country
+                  FROM customer c
+                  JOIN address a ON c.addressId = a.addressId
+                  JOIN city ci ON a.cityId = ci.cityId
+                  JOIN country co ON ci.countryId = co.countryId",
+                conn))
+            using (var reader = cmd.ExecuteReader()) {
                 while (reader.Read()) {
                     list.Add(new Customer {
                         CustomerId = Convert.ToInt32(reader["customerId"]),
                         CustomerName = reader["customerName"].ToString()!,
-                        AddressId = Convert.ToInt32(reader["addressId"]),
+                        Address = reader["address"].ToString()!,
+                        PhoneNumber = reader["phone"].ToString()!,
+                        PostalCode = reader["postalCode"].ToString()!,
+                        City = reader["city"].ToString()!,
+                        Country = reader["country"].ToString()!,
                         Active = Convert.ToInt32(reader["active"]) == 1
                     });
                 }
             }
-            
+
             return list;
         }
-        public int AddCustomer(Customer customer, Address address, User user, string cityName, string countryName) {
+
+
+        public int AddCustomer(Customer customer, Address address, User user, string cityName, string countryName, bool active) {
             using (var conn = Database.GetConnection()) {
                 using (var trans = conn.BeginTransaction()) {
                     try {
@@ -107,7 +119,7 @@ namespace SchedulerApp.Data
                             conn, trans)) {
                             cmd.Parameters.AddWithValue("@name", customer.CustomerName.Trim());
                             cmd.Parameters.AddWithValue("@addressId", addressId);
-                            cmd.Parameters.AddWithValue("@active", customer.Active ? 1 : 0);
+                            cmd.Parameters.AddWithValue("@active", active);
                             cmd.Parameters.AddWithValue("@user", user.Username);
 
                             int customerId = Convert.ToInt32(cmd.ExecuteScalar());

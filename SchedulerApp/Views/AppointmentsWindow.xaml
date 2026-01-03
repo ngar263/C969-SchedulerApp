@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SchedulerApp.Views"
         mc:Ignorable="d"
-        Title="Appointments" Height="600" Width="900">
+        Title="Appointments" Height="auto" Width="auto">
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                 <Button x:Name="btnAdd" Content="Add" Click="btnAdd_Click" Width="50" Margin="4"/>
@@ -16,14 +16,14 @@
             <DataGrid x:Name="dgAppointments" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" CanUserResizeColumns="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding AppointmentId}" Header="ID" Width="auto"/>
-                    <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="auto"/>
                     <DataGridTextColumn Header="Start (Local)" Width="auto" Binding="{Binding StartUtc, Converter={StaticResource UtcToLocalConverter}}"/>
                     <DataGridTextColumn Header="End (Local)" Width="auto" Binding="{Binding EndUtc, Converter={StaticResource UtcToLocalConverter}}"/>
                     <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="auto"/>
-                    <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="12*"/>
-                    <DataGridTextColumn Binding="{Binding CustomerName}" Header="Customer" Width="5*"/>
-                    <DataGridTextColumn Binding="{Binding Contact}" Header="Contact" Width="3*"/>
-                    <DataGridTextColumn Binding="{Binding Location}" Header="Location" Width="3*"/>
+                    <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="auto"/>
+                    <DataGridTextColumn Binding="{Binding CustomerName}" Header="Customer" Width="auto"/>
+                    <DataGridTextColumn Binding="{Binding Contact}" Header="Contact" Width="auto"/>
+                    <DataGridTextColumn Binding="{Binding Location}" Header="Location" Width="auto"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

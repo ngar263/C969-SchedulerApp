@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SchedulerApp.Views"
         mc:Ignorable="d"
-        Title="Appointment" Height="350" Width="500">
+        Title="Appointment" Height="450" Width="600">
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -22,34 +23,48 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1" Height="25" Margin="0,0,0,6">
-                <Label Width="120">CustomerId:</Label>
-                <TextBox x:Name="txtCustomerId" Width="100"/>
+                <Label Width="120">Customer:</Label>
+                <ComboBox x:Name="cmbCustomer" Width="125" IsEditable="True" DisplayMemberPath="CustomerName" SelectedValuePath="CustomerId"/>
                 <Label Width="80" Margin="10,0,0,0">Type:</Label>
                 <TextBox x:Name="txtType" Width="120"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="2" Height="25" Margin="0,0,0,6">
-                <Label Width="120">Date:</Label>
-                <DatePicker x:Name="dpDate" Width="140"/>
-                <Label Width="40">Start:</Label>
-                <TextBox x:Name="txtStartTime" Width="60" Height="25" VerticalAlignment="Center" Text="09:00"/>
-                <Label Width="40">End:</Label>
-                <TextBox x:Name="txtEndTime" Width="60" Height="25" VerticalAlignment="Center" Text="10:00"/>
-            </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="3" Height="25" Margin="0,0,0,6">
-                <Label Width="120">Location:</Label>
-                <TextBox x:Name="txtLocation" Width="100"/>
-                <Label Width="80" Margin="10,0,0,0">Contact:</Label>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Height="25" Margin="0,0,0,6">
+            <Label Width="120">Date:</Label>
+            <DatePicker x:Name="dpDate" Width="140"/>
+
+            <Label Width="40">Start:</Label>
+            <TextBox x:Name="txtStartTime" Width="55" Height="25" Text="09:00"/>
+            <ComboBox x:Name="cmbStartAmPm" Width="55" SelectedIndex="0">
+                <ComboBoxItem Content="AM"/>
+                <ComboBoxItem Content="PM"/>
+            </ComboBox>
+
+            <Label Width="40">End:</Label>
+            <TextBox x:Name="txtEndTime" Width="55" Height="25" Text="10:00"/>
+            <ComboBox x:Name="cmbEndAmPm" Width="55" SelectedIndex="0">
+                <ComboBoxItem Content="AM"/>
+                <ComboBoxItem Content="PM"/>
+            </ComboBox>
+        </StackPanel>
+
+
+        <TextBlock Grid.Row="3" HorizontalAlignment="Center" FontSize="11" Foreground="Gray" Text="Business hours: Monday-Friday 9:00 AM – 5:00 PM Eastern Time (auto-adjusted to your time zone)"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Height="25" Margin="0,0,0,6">
+                <Label Width="120">Phone Number:</Label>
                 <TextBox x:Name="txtContact" Width="120"/>
+                <Label Width="80">Location:</Label>
+                <TextBox x:Name="txtLocation" Width="100"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0,0,0,6">
+            <StackPanel Orientation="Horizontal" Grid.Row="5" Margin="0,0,0,6">
                 <Label Width="120">Description:</Label>
                 <TextBox x:Name="txtDescription" Width="300"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="5" Height="35" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Grid.Row="6" Height="35" HorizontalAlignment="Right">
                 <Button x:Name="btnSave" Content="Save" Width="60" Click="btnSave_Click" Margin="4"/>
                 <Button x:Name="btnCancel" Content="Cancel" Width="60" Click="btnCancel_Click" Margin="4"/>
             </StackPanel>

@@ -24,6 +24,7 @@ namespace SchedulerApp.Views
 
             var userDao = new UserDao();
             _authService = new AuthService(userDao);
+            CheckForTestUser();
 
             var appointmentDao = new AppointmentDao();
             _appointmentService = new AppointmentService(appointmentDao);          
@@ -58,6 +59,10 @@ namespace SchedulerApp.Views
             var main = new MainWindow(user!);
             main.Show();
             this.Close();
+        }
+
+        public async void CheckForTestUser() {
+            _authService.CheckForTestUserAsync();
         }
 
         public void SetLanguage(string cultureCode) {

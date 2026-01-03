@@ -16,7 +16,7 @@ namespace SchedulerApp.Services
         private readonly CityDao _cityDao;
         public CustomerService(ICustomerDao customerDao) => _customerDao = customerDao;
 
-        public int AddCustomer(Customer customer, Address address, User user, string cityName, string countryName) {
+        public int AddCustomer(Customer customer, Address address, User user, string cityName, string countryName, bool active) {
             customer.CustomerName = customer.CustomerName?.Trim()!;
             address.Address1 = address.Address1.Trim();
             address.Phone = address.Phone.Trim();
@@ -24,7 +24,7 @@ namespace SchedulerApp.Services
             ValidationService.ValidateCustomerInput(customer.CustomerName, address.Address1, address.Phone, cityName, countryName);
 
             try {
-                return _customerDao.AddCustomer(customer, address, user, cityName, countryName);
+                return _customerDao.AddCustomer(customer, address, user, cityName, countryName, active);
             } catch (Exception ex) {
                 throw new ApplicationException("Failed to add customer.", ex);
             }

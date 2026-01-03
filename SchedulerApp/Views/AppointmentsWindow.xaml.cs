@@ -23,11 +23,16 @@ namespace SchedulerApp.Views {
         private readonly AppointmentService _appointmentService;
         private readonly IAppointmentDao _appointmentDao;
         private readonly User _currentUser;
+        private readonly ICustomerDao _customerDao;
+        private readonly List<Customer> _customers;
         public AppointmentsWindow(User user) {
             InitializeComponent();
             _currentUser = user;
             _appointmentDao = new AppointmentDao();
             _appointmentService = new AppointmentService(_appointmentDao);
+            _customerDao = new CustomerDao();
+            _customers = _customerDao.GetAllCustomers();
+
             LoadAppointments();
         }
 
@@ -36,7 +41,7 @@ namespace SchedulerApp.Views {
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e) {
-            var editor = new AppointmentEditorWindow(_currentUser);
+            var editor = new AppointmentEditorWindow(_currentUser, customers: _customers);
             if (editor.ShowDialog() == true) {
                 try {
                     _appointmentService.AddAppointment(editor.Appointment, _currentUser);
@@ -49,7 +54,7 @@ namespace SchedulerApp.Views {
 
         private void btnEdit_Click(object sender, RoutedEventArgs e) {
             if (dgAppointments.SelectedItem is Appointment appointment) {
-                var editor = new AppointmentEditorWindow(_currentUser, appointment);
+                var editor = new AppointmentEditorWindow(_currentUser, _customers, appointment);
                 if (editor.ShowDialog() == true) {
                     try {
                         _appointmentService.UpdateAppointment(appointment, _currentUser);

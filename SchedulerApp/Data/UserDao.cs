@@ -11,10 +11,20 @@ namespace SchedulerApp.Data
 {
     public class UserDao : IUserDao
     {
+        public void CreateTestUser() {
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(
+                "INSERT INTO user (userName, password, active, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                "VALUES ('test', 'test', 1, NOW(), 'test', NOW(), 'test');", conn)) {
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public User GetByUsername(string username) {
             using (var conn = Database.GetConnection())
-            using (var cmd = new MySqlCommand("SELECT userId, userName, password, active FROM user WHERE userName = @u", conn)) {
-                cmd.Parameters.AddWithValue("@u", username.Trim());
+            using (var cmd = new MySqlCommand(
+                "SELECT userId, userName, password, active FROM user WHERE userName = @userName", conn)) {
+                cmd.Parameters.AddWithValue("@userName", username.Trim());
                 try {
                     using (var reader = cmd.ExecuteReader()) {
                         if (!reader.Read()) return null;

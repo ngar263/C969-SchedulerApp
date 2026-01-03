@@ -23,5 +23,10 @@ namespace SchedulerApp.Services
         public static void ValidateAppointmentTimes(DateTime startLocal, DateTime endLocal) {
             if (endLocal <= startLocal) throw new ArgumentException("End time must be after start time");
         }
+
+        public static bool ValidateAppointmentPhoneNumber(string phone) {
+            if (string.IsNullOrWhiteSpace(phone)) return false;
+            return Regex.IsMatch(phone.Trim(), @"^[0-9-]+$");
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace SchedulerApp.Data
     public interface IUserDao
     {
         User GetByUsername(string username);
+        void CreateTestUser();
     }
 }

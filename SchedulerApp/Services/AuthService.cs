@@ -29,6 +29,12 @@ namespace SchedulerApp.Services
             return user;
         }
 
+        public async void CheckForTestUserAsync() {
+            var user = _userDao.GetByUsername("test");
+            if (user == null) _userDao.CreateTestUser();
+            return;
+        }
+
         private void LogLogin(string username, bool success) {
             try {
                 var line = $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC | {username} | Success={success}{Environment.NewLine}";

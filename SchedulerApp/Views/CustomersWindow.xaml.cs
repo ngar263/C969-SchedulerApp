@@ -48,7 +48,7 @@ namespace SchedulerApp.Views {
             var editor = new CustomerEditorWindow(_cities, _countries);
             if (editor.ShowDialog() == true) {
                 try {
-                    var custId = _customerService.AddCustomer(editor.Customer, editor.Address, _currentUser, editor.cmbCity.Text.Trim(), editor.cmbCountry.Text.Trim());
+                    var custId = _customerService.AddCustomer(editor.Customer, editor.Address, _currentUser, editor.cmbCity.Text.Trim(), editor.cmbCountry.Text.Trim(), editor.chkActive.IsChecked!.Value);
                     LoadCustomers();
                 } catch (Exception ex) {
                     MessageBox.Show("Error adding customer: " + ex.Message);
@@ -65,7 +65,7 @@ namespace SchedulerApp.Views {
                 var editor = new CustomerEditorWindow(selected, address, city, country, _cities, _countries);
                 if (editor.ShowDialog() == true) {
                     try {
-                        _customerService.UpdateCustomer(editor.Customer, editor.Address, _currentUser, editor.cmbCity.Text, editor.cmbCountry.Text, editor.chkActive.IsChecked!.Value);
+                        _customerService.UpdateCustomer(editor.Customer, editor.Address, _currentUser, editor.cmbCity.Text.Trim(), editor.cmbCountry.Text.Trim(), editor.chkActive.IsChecked!.Value);
                         LoadCustomers();
                     } catch (Exception ex) {
                         MessageBox.Show("Error editing customer: " + ex.Message);

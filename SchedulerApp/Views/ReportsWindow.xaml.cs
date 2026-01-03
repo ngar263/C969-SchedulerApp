@@ -27,13 +27,13 @@ namespace SchedulerApp.Views {
         }
         private void LoadReports() {
             lbTypesByMonth.ItemsSource = _appointmentService.GetAppointmentTypesByMonthReport()
-                .Select(x => $"Month: {((dynamic)x).Month}, Type: {((dynamic)x).Type}, Count: {((dynamic)x).Count}");
+                .Select(x => $"Month: {((dynamic)x).Month}, Type: {((dynamic)x).Type ?? "None specified"}, Count: {((dynamic)x).Count}");
             var allAppointments = _appointmentService.GetAllAppointments();
             var userIds = allAppointments.Select(x =>  x.UserId).Distinct().ToList();
             var schedule = _appointmentService.GetSchedulePerUserReport(userIds);
             lbSchedulePerUser.ItemsSource = schedule.Select(u => $"User {((dynamic)u).UserId} has {((dynamic)u).Appointments.Count} appointments.");
             lbPerCustomer.ItemsSource = _appointmentService.GetAppointmentsPerCustomerReport()
-                .Select(x => $"Customer {((dynamic)x).CustomerId}, Count: {((dynamic)x).Count}, Next: {((((dynamic)x).NextAppointmentUtc != null) ? TimeHelper.ConvertUtcToLocal(((dynamic)x).NextAppointmentUtc).ToString("g") : "N/A")}");
+                .Select(x => $"Customer {((dynamic)x).CustomerName}, Count: {((dynamic)x).Count}, Next: {((((dynamic)x).NextAppointmentUtc != default(DateTime)) ? TimeHelper.ConvertUtcToLocal(((dynamic)x).NextAppointmentUtc).ToString("g") : "N/A")}");
         }
     }
 }

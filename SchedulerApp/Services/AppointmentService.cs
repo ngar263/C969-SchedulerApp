@@ -125,6 +125,7 @@ namespace SchedulerApp.Services
                 Appointments = appointments.Where(a => a.UserId == uid).OrderBy(a => a.StartUtc).Select(a => new {
                     a.AppointmentId,
                     a.CustomerId,
+                    a.CustomerName,
                     StartLocal = TimeHelper.ConvertUtcToLocal(a.StartUtc),
                     EndLocal = TimeHelper.ConvertUtcToLocal(a.EndUtc),
                     a.Type,
@@ -136,8 +137,18 @@ namespace SchedulerApp.Services
 
         public IEnumerable<object> GetAppointmentsPerCustomerReport() {
             var appointments = GetAllAppointments();
-            var q = appointments.GroupBy(a => a.CustomerId)
-                .Select(g => new { CustomerId = g.Key, Count = g.Count(), NextAppointmentUtc = g.OrderBy(a => a.StartUtc).FirstOrDefault()?.StartUtc });
+            var q = appointments
+                .GroupBy(a => new { a.CustomerId, a.CustomerName })
+                .Select(g => new {
+                    CustomerId = g.Key.CustomerId,
+                    CustomerName = g.Key.CustomerName,
+                    Count = g.Count(),
+                    NextAppointmentUtc = g
+                        .Where(a => a.StartUtc > DateTime.UtcNow)
+                        .OrderBy(a => a.StartUtc)
+                        .Select(a => a.StartUtc)
+                        .FirstOrDefault()
+                });
             return q;
         }
     }

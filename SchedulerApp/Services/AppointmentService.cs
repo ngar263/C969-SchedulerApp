@@ -120,20 +120,33 @@ namespace SchedulerApp.Services
 
         public IEnumerable<object> GetSchedulePerUserReport(IEnumerable<int> userIds) {
             var appointments = GetAllAppointments();
-            var q = userIds.Select(uid => new {
-                UserId = uid,
-                Appointments = appointments.Where(a => a.UserId == uid).OrderBy(a => a.StartUtc).Select(a => new {
-                    a.AppointmentId,
-                    a.CustomerId,
-                    a.CustomerName,
-                    StartLocal = TimeHelper.ConvertUtcToLocal(a.StartUtc),
-                    EndLocal = TimeHelper.ConvertUtcToLocal(a.EndUtc),
-                    a.Type,
-                    a.Title
-                }).ToList()
+            var users = new UserDao().GetAllUsers();
+
+            var q = userIds.Select(uid =>
+            {
+                var user = users.FirstOrDefault(u => u.UserId == uid);
+
+                return new {
+                    UserId = uid,
+                    UserName = user?.Username ?? "Unknown",
+                    Appointments = appointments
+                        .Where(a => a.UserId == uid)
+                        .OrderBy(a => a.StartUtc)
+                        .Select(a => new {
+                            a.AppointmentId,
+                            a.CustomerName,
+                            StartLocal = TimeHelper.ConvertUtcToLocal(a.StartUtc),
+                            EndLocal = TimeHelper.ConvertUtcToLocal(a.EndUtc),
+                            a.Type,
+                            a.Title
+                        })
+                        .ToList()
+                };
             }).ToList();
+
             return q;
         }
+
 
         public IEnumerable<object> GetAppointmentsPerCustomerReport() {
             var appointments = GetAllAppointments();

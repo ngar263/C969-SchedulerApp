@@ -31,7 +31,7 @@ namespace SchedulerApp.Views {
             var allAppointments = _appointmentService.GetAllAppointments();
             var userIds = allAppointments.Select(x =>  x.UserId).Distinct().ToList();
             var schedule = _appointmentService.GetSchedulePerUserReport(userIds);
-            lbSchedulePerUser.ItemsSource = schedule.Select(u => $"User {((dynamic)u).UserId} has {((dynamic)u).Appointments.Count} appointments.");
+            lbSchedulePerUser.ItemsSource = schedule.Select(u => $"User {((dynamic)u).UserName} has {((dynamic)u).Appointments.Count} appointments.");
             lbPerCustomer.ItemsSource = _appointmentService.GetAppointmentsPerCustomerReport()
                 .Select(x => $"Customer {((dynamic)x).CustomerName}, Count: {((dynamic)x).Count}, Next: {((((dynamic)x).NextAppointmentUtc != default(DateTime)) ? TimeHelper.ConvertUtcToLocal(((dynamic)x).NextAppointmentUtc).ToString("g") : "N/A")}");
         }

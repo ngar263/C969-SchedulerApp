@@ -70,7 +70,7 @@ namespace SchedulerApp.Data
             var appointments = new List<Appointment>();
             using (var conn = Database.GetConnection()) {
                 using (var cmd = new MySqlCommand(
-                    @"SELECT a.appointmentId, a.customerId, c.customerName, a.title, a.description, a.type, a.start, a.end, a.contact, a.location
+                    @"SELECT a.appointmentId, a.customerId, c.customerName, a.title, a.description, a.type, a.start, a.end, a.contact, a.location, a.userId
                       FROM appointment a
                       JOIN customer c ON a.customerId = c.customerId",
                     conn))
@@ -83,6 +83,7 @@ namespace SchedulerApp.Data
                             Title = reader.GetString("title"),
                             Description = reader.GetString("description"),
                             Contact = reader.GetString("contact"),
+                            UserId = reader.GetInt32("userId"),
                             Location = reader.GetString("location"),
                             Type = reader.GetString("type"),
                             StartUtc = reader.GetDateTime("start"),

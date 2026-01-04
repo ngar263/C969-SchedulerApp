@@ -41,5 +41,26 @@ namespace SchedulerApp.Data
                 }
             }
         }
+
+        public List<User> GetAllUsers() {
+            var list = new List<User>();
+
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(
+                "SELECT userId, userName, password, active FROM user", conn))
+            using (var reader = cmd.ExecuteReader()) {
+                while (reader.Read()) {
+                    list.Add(new User {
+                        UserId = Convert.ToInt32(reader["userId"]),
+                        Username = reader["userName"].ToString()!,
+                        Password = reader["password"].ToString()!,
+                        Active = Convert.ToInt32(reader["active"]) == 1
+                    });
+                }
+            }
+
+            return list;
+        }
+
     }
 }

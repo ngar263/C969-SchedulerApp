@@ -23,10 +23,12 @@ namespace SchedulerApp.Views {
     public partial class CalendarWindow : Window {
         private readonly AppointmentService _appointmentService;
         private readonly User _user;
+        private readonly CustomerDao _customerDao;
         public CalendarWindow(User user) {
             InitializeComponent();
             _user = user;
             _appointmentService = new AppointmentService(new AppointmentDao());
+            _customerDao = new CustomerDao();
         }
 
         private void calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e) {
@@ -35,7 +37,8 @@ namespace SchedulerApp.Views {
             lbAppointments.Items.Clear();
             foreach (var appointment in appointments) {
                 var startLocal = TimeHelper.ConvertUtcToLocal(appointment.StartUtc);
-                lbAppointments.Items.Add($"{startLocal:yyyy-MM-dd HH:mm} - {appointment.Title} (Customer {appointment.CustomerId})");
+                var customer = _customerDao.GetNameById(appointment.CustomerId);
+                lbAppointments.Items.Add($"{startLocal:yyyy-MM-dd HH:mm} - {appointment.Title} (Customer {customer})");
             }
         }
     }

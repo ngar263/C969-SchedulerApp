@@ -13,6 +13,7 @@ namespace SchedulerApp.Data
         int AddCustomer(Customer customer, Address address, User user, string cityName, string countryName, bool active);
         void UpdateCustomer(Customer customer, Address address, User user, string cityName, int countryId);
         void DeleteCustomer(int customerId);
+        string GetNameById(int customerId);
         Address GetAddressById(int customerId);
         Country GetCountryById(int countryId);
         City GetCityById(int cityId);

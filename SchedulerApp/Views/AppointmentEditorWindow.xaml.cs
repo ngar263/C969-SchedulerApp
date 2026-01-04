@@ -79,7 +79,7 @@ namespace SchedulerApp.Views {
                 offset = offset.Duration();
                 return $"{sign}{offset:hh\\:mm}";
             }
-            txtBusinessHours.Text = $"Business hours: Mon–Fri 9:00AM–5:00 PM Eastern| Your local: {localStart:h:mm tt}–{localEnd:h:mm tt}";
+            txtBusinessHours.Text = $"Business hours: Mon–Fri 9:00AM–5:00 PM Eastern | Your local: {localStart:h:mm tt}–{localEnd:h:mm tt}";
         }
 
         bool TryParseTime(string text, ComboBox ampmBox, out TimeSpan time) {

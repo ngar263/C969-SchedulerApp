@@ -10,7 +10,8 @@ namespace SchedulerApp.Data
 {
     public static class Database
     {
-        private static string _connectionString = "Server=127.0.0.1;Port=3306;Database=client_schedule;Uid=sqlUser;Pwd=Passw0rd!;";
+        private static string _connectionString = "Server=127.0.0.1;Port=3306;Database=client_schedule;Uid=root;Pwd=password;";
+        //private static string _connectionString = "Server=127.0.0.1;Port=3306;Database=client_schedule;Uid=sqlUser;Pwd=Passw0rd!;";
 
         public static MySqlConnection GetConnection() {
             try {

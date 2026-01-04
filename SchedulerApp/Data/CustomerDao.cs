@@ -286,5 +286,20 @@ namespace SchedulerApp.Data
                 }
             }
         }
+
+        public string GetNameById(int customerId) {
+            using (var conn = Database.GetConnection())
+            using (var cmd = new MySqlCommand(
+                @"SELECT customerName
+                  FROM customer
+                  WHERE customerId = @customerId", conn)) {
+                cmd.Parameters.AddWithValue("@customerId", customerId);
+                using (var reader = cmd.ExecuteReader()) {
+                    if (!reader.Read()) return null;
+
+                    return reader["customerName"].ToString();
+                }
+            }
+        }
     }
 }
